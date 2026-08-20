@@ -11,7 +11,7 @@
 
     body {
       margin: 0;
-      height: 100vh;
+      min-height: 100vh;
 
       display: flex;
       justify-content: center;
@@ -34,15 +34,19 @@
 
 
     .container {
-      padding: 30px;
       width: 100%;
+      padding: 30px;
+
       display: flex;
       flex-direction: column;
+      justify-content: center;
       align-items: center;
+
+      box-sizing: border-box;
     }
 
 
-    /* Gesamter Geburtstagstext */
+    /* Geburtstagstext */
 
     .birthday-text {
       opacity: 0;
@@ -54,14 +58,20 @@
         transform 1.5s ease;
 
       max-width: 750px;
+
+      /* Unsichtbarer Text nimmt vorher keinen Platz ein */
+      position: absolute;
+
+      pointer-events: none;
     }
 
 
-    /* Wird durch JavaScript eingeblendet */
-
     .birthday-text.visible {
       opacity: 1;
+
       transform: translateY(0);
+
+      position: relative;
     }
 
 
@@ -109,14 +119,18 @@
       font-size: 1.2rem;
 
       border: none;
+
       border-radius: 30px;
 
       cursor: pointer;
 
       background: white;
+
       color: #3a2158;
 
-      transition: transform 0.2s ease;
+      transition:
+        transform 0.2s ease,
+        opacity 0.4s ease;
     }
 
 
@@ -137,10 +151,10 @@
       animation: fly 6s linear forwards;
 
       pointer-events: none;
+
+      z-index: 10;
     }
 
-
-    /* Ballons fliegen nach oben */
 
     @keyframes fly {
 
@@ -150,6 +164,76 @@
 
       to {
         transform: translateY(-120vh);
+      }
+
+    }
+
+
+    /* Smartphone-Anpassung */
+
+    @media (max-width: 600px) {
+
+      .container {
+        padding: 20px;
+      }
+
+
+      .birthday-text {
+        max-width: 95%;
+      }
+
+
+      .birthday-text h1 {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+      }
+
+
+      .birthday-text p {
+        font-size: 1.05rem;
+
+        line-height: 1.5;
+
+        margin: 12px 0;
+      }
+
+
+      .signature {
+        margin-top: 22px !important;
+      }
+
+
+      button {
+        font-size: 1.1rem;
+
+        padding: 15px 26px;
+      }
+
+    }
+
+
+    /* Sehr kleine Smartphones */
+
+    @media (max-height: 650px) {
+
+      .birthday-text h1 {
+        font-size: 1.8rem;
+
+        margin-bottom: 14px;
+      }
+
+
+      .birthday-text p {
+        font-size: 0.95rem;
+
+        line-height: 1.4;
+
+        margin: 9px 0;
+      }
+
+
+      .signature {
+        margin-top: 15px !important;
       }
 
     }
@@ -223,7 +307,6 @@
   </div>
 
 
-
   <script>
 
     const musik =
@@ -286,7 +369,6 @@
       balloon.innerText = "🎈";
 
 
-      // Zufällige Position
       balloon.style.left =
         Math.random() * 95 + "vw";
 
@@ -296,7 +378,6 @@
       );
 
 
-      // Ballon nach Animation entfernen
       setTimeout(() => {
 
         balloon.remove();
