@@ -1,120 +1,313 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Geburtstag</title>
 
   <style>
+
     body {
       margin: 0;
       height: 100vh;
+
       display: flex;
       justify-content: center;
       align-items: center;
+
       text-align: center;
+
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #1b1530, #3a2158);
+
+      background: linear-gradient(
+        135deg,
+        #1b1530,
+        #3a2158
+      );
+
       color: white;
+
       overflow: hidden;
     }
 
+
     .container {
       padding: 30px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    h1 {
-      font-size: clamp(2.5rem, 8vw, 5rem);
+
+    /* Gesamter Geburtstagstext */
+
+    .birthday-text {
       opacity: 0;
+
       transform: translateY(30px);
-      transition: all 1.5s ease;
+
+      transition:
+        opacity 1.5s ease,
+        transform 1.5s ease;
+
+      max-width: 750px;
     }
 
-    h1.visible {
+
+    /* Wird durch JavaScript eingeblendet */
+
+    .birthday-text.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
+
+    /* Große Überschrift */
+
+    .birthday-text h1 {
+      font-size: clamp(
+        2.3rem,
+        7vw,
+        4.5rem
+      );
+
+      margin-top: 0;
+      margin-bottom: 30px;
+    }
+
+
+    /* Normaler Text */
+
+    .birthday-text p {
+      font-size: clamp(
+        1.1rem,
+        3vw,
+        1.4rem
+      );
+
+      line-height: 1.6;
+
+      margin: 16px 0;
+    }
+
+
+    /* Unterschrift */
+
+    .signature {
+      margin-top: 30px !important;
+    }
+
+
+    /* Startbutton */
+
     button {
       padding: 16px 30px;
+
       font-size: 1.2rem;
+
       border: none;
       border-radius: 30px;
+
       cursor: pointer;
+
       background: white;
       color: #3a2158;
+
+      transition: transform 0.2s ease;
     }
+
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+
+    /* Ballons */
 
     .balloon {
       position: fixed;
+
       bottom: -100px;
+
       font-size: 55px;
+
       animation: fly 6s linear forwards;
+
+      pointer-events: none;
     }
 
+
+    /* Ballons fliegen nach oben */
+
     @keyframes fly {
+
+      from {
+        transform: translateY(0);
+      }
+
       to {
         transform: translateY(-120vh);
       }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
+
   <div class="container">
 
-    <h1 id="birthdayText">
-      Aaaalles Gute zum 45. Geburtstag, Malte 🎉!!
-    </h1>
 
-    <audio id="musik" loop>
-      <source src="Andrius.mp3" type="audio/mpeg">
+    <!-- Geburtstagstext -->
+
+    <div
+      id="birthdayText"
+      class="birthday-text"
+    >
+
+      <h1>
+        Aaaalles, alles Gute zum 45. Geburtstag, Malte! 🎉🥳
+      </h1>
+
+
+      <p>
+        Ich wünsche dir ein richtig schönes neues Lebensjahr
+        mit ganz viel Spaß, tollen Erlebnissen und vielen
+        Momenten, an die du gerne zurückdenkst.
+      </p>
+
+
+      <p>
+        Schön, dass es dich gibt. ❤️
+      </p>
+
+
+      <p class="signature">
+        Hab dich lieb!<br>
+        Sabrina
+      </p>
+
+
+    </div>
+
+
+    <!-- Musik -->
+
+    <audio
+      id="musik"
+      loop
+    >
+
+      <source
+        src="Andrius.mp3"
+        type="audio/mpeg"
+      >
+
     </audio>
 
-    <button id="musikButton">🎵 Let's Fetz</button>
+
+    <!-- Startbutton -->
+
+    <button id="musikButton">
+      🎵 Überraschung :)
+    </button>
+
 
   </div>
 
+
+
   <script>
-    const musik = document.getElementById("musik");
-    const button = document.getElementById("musikButton");
-    const birthdayText = document.getElementById("birthdayText");
 
-    button.addEventListener("click", function () {
+    const musik =
+      document.getElementById("musik");
 
-      musik.play();
+    const button =
+      document.getElementById("musikButton");
 
-      button.style.display = "none";
+    const birthdayText =
+      document.getElementById("birthdayText");
 
-      setTimeout(() => {
-        birthdayText.classList.add("visible");
-      }, 500);
 
-      for (let i = 0; i < 15; i++) {
-        setTimeout(createBalloon, i * 300);
+    button.addEventListener(
+      "click",
+      function () {
+
+        // Musik starten
+        musik.play();
+
+
+        // Button verschwinden lassen
+        button.style.display = "none";
+
+
+        // Geburtstagstext einblenden
+        setTimeout(() => {
+
+          birthdayText.classList.add(
+            "visible"
+          );
+
+        }, 500);
+
+
+        // Ballons starten
+        for (let i = 0; i < 15; i++) {
+
+          setTimeout(
+            createBalloon,
+            i * 300
+          );
+
+        }
+
       }
+    );
 
-    });
 
     function createBalloon() {
 
-      const balloon = document.createElement("div");
+      const balloon =
+        document.createElement("div");
 
-      balloon.classList.add("balloon");
+
+      balloon.classList.add(
+        "balloon"
+      );
+
 
       balloon.innerText = "🎈";
 
+
+      // Zufällige Position
       balloon.style.left =
         Math.random() * 95 + "vw";
 
-      document.body.appendChild(balloon);
 
+      document.body.appendChild(
+        balloon
+      );
+
+
+      // Ballon nach Animation entfernen
       setTimeout(() => {
+
         balloon.remove();
+
       }, 7000);
+
     }
+
   </script>
 
+
 </body>
+
 </html>
